@@ -75,6 +75,8 @@ Resources:
       DesiredCapacity: '3'
       MinSize: '1'
       MaxSize: '4'
+      TargetGroupARNs:
+        - !Ref DefaultTargetGroup
     CreationPolicy:
       ResourceSignal:
         Count: '1'
