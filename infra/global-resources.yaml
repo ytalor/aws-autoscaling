@@ -75,6 +75,7 @@ Resources:
       DesiredCapacity: '3'
       MinSize: '1'
       MaxSize: '4'
+      VPCZoneIdentifier: !Ref SubnetIDsList
       TargetGroupARNs:
         - !Ref DefaultTargetGroup
     CreationPolicy:
