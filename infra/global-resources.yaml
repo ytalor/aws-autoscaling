@@ -1,11 +1,11 @@
 Parameters:
-  VPC:
+  VpcID:
     Type: AWS::EC2::VPC::Id
 
-  Subnets:
+  SubnetIDsList:
     Type: List<AWS::EC2::Subnet::Id>
 
-  IAMRoleARN:
+  IamARN:
     Type: 'String'
     Description: 'IAM Role ARN for your EC2 instances'  
 
@@ -15,7 +15,7 @@ Resources:
     Properties:
       GroupName: security-group-devops
       GroupDescription: security-group-devops
-      VpcId: !Ref VPC
+      VpcId: !Ref VpcID
       SecurityGroupIngress:
         - CidrIp: 0.0.0.0/0
           IpProtocol: -1
@@ -26,7 +26,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
       Name: LoadBalancer-Devops
-      Subnets: !Ref Subnets
+      Subnets: !Ref SubnetIDsList
       SecurityGroups:
         - !Ref LoadBalancerSecurityGroup
 
@@ -44,7 +44,7 @@ Resources:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
     Properties:
       Name: "target-group-devops"
-      VpcId: !Ref VPC
+      VpcId: !Ref VpcID
       Port: 80
       TargetType: instance
       Protocol: HTTP
@@ -81,7 +81,7 @@ Resources:
     Properties:
       ImageId: !Ref LatestLinuxAmiId
       InstanceType: t2.micro
-      IamInstanceProfile: !Ref IAMRoleARN
+      IamInstanceProfile: !Ref IamARN
       SecurityGroups:
         - !Ref InstanceSecurityGroup
       UserData:
