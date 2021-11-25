@@ -83,6 +83,19 @@ Resources:
       ResourceSignal:
         Count: '1'
         Timeout: PT15M
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: '1'
+        MaxBatchSize: '2'
+        # how much time to wait for the signal
+        PauseTime: PT1M
+        WaitOnResourceSignals: 'true'
+        # we can suspend processes during the update
+        # SuspendProcesses:
+        # - list of processes...
+      AutoScalingScheduledAction:
+        # Prevent Scheduled Actions from modifying min/max/desired for CloudFormation
+        IgnoreUnmodifiedGroupSizeProperties: 'true'
 
   LaunchConfig:
     Type: AWS::AutoScaling::LaunchConfiguration
@@ -100,6 +113,7 @@ Resources:
             # install codedeploy agent
             sudo yum update -y
             sudo yum install -y ruby wget
+            yum install -y httpd
             wget https://aws-codedeploy-eu-west-1.s3.eu-west-1.amazonaws.com/latest/install
             chmod +x ./install
             sudo ./install auto
