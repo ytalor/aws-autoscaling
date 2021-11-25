@@ -68,8 +68,9 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       AvailabilityZones: 
-        Fn::GetAZs: 
-          Ref: "AWS::Region"
+        - us-east-1c
+        - us-east-1f
+        - us-east-1e
       LaunchConfigurationName:
         Ref: LaunchConfig
       DesiredCapacity: '3'
